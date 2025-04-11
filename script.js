@@ -45,7 +45,6 @@ const wordsArray = [
   { word: "svg", hint: "Scalable vector graphics" },
   { word: "loop", hint: "Executes a block of code multiple times" },
   { word: "condition", hint: "Controls code flow based on true or false" },
-  { word: "boolean", hint: "true or false" },
 ];
 
 // Shuffle the words array randomly
@@ -57,7 +56,11 @@ function shuffleArray(arr) {
 // This function takes a word and scrambles its letters randomly
 function scramble(word) {
   // Convert the word into an array of letters, then shuffle them, and join back as a string
-  return word.split('').sort(() => Math.random() - 0.5).join('');
+  const lettersArray = word.split('');
+  const shuffleLettersArray = lettersArray.sort(() => Math.random() - 0.5);
+  const combinedLetters = shuffleLettersArray.join('');
+
+  return combinedLetters;
 }
 
 let score = 0; // Initialize the score to 0
@@ -72,9 +75,9 @@ for (let i = 0; i < totalRounds; i++) {
   while (scrambledWord === selectedObject.word) {
     scrambledWord = scramble(selectedObject.word);
   }
-  scrambledWord = scrambledWord.split('').join(' ');
+  scrambledWord = scrambledWord.split('').join('  ');
 
-  let guess = prompt(`Round ${i + 1}:\nYour score: ${score} \/100 \n \nUnscramble this word: ${scrambledWord.toUpperCase()}\n\nHint: ${selectedObject.hint}`);
+  let guess = prompt(`Round ${i + 1}:\nYour score: ${score} \/100\n\n Unscramble this word: ${scrambledWord.toUpperCase()}\n\nHint: ${selectedObject.hint}\n`);
 
   // Check if the user pressed "Cancel" on the prompt
   if (guess === null) {
@@ -82,7 +85,7 @@ for (let i = 0; i < totalRounds; i++) {
     break;
   }
 
-  if (guess.toLowerCase() === selectedObject.word) {
+  if (guess.toLowerCase() === selectedObject.word.toLowerCase()) {
     alert("Correct!");
     score += 10;
   } else {
